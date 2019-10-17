@@ -29,4 +29,4 @@ npm run start:lp
 
 > Since `create-react-app` normally won't watch for changes outside the `src` and `public` folder `live-package` uses `react-app-rewired` to inject a modified webpack dev server config. This means you don't have to eject your `create-react-app` config to enable this behavior!
 
-### Other projects
+### Using for other (non `create-react-app` projects)
