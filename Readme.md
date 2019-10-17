@@ -27,6 +27,6 @@ npm run start:lp
 
 `live-package` will now start watching the selected package dist folder for changes and sync it to your `node_modules` folder. When a change is detected it will live reload your webpack dev server. Simple as that!
 
-> Since `create-react-app` normally won't watch for changes outside the `src` and `public` folder `live-package` uses `react-app-rewired` to inject a modified webpack dev server config. This means you don't have to eject your `crate-react-app` to enable this behavior!
+> Since `create-react-app` normally won't watch for changes outside the `src` and `public` folder `live-package` uses `react-app-rewired` to inject a modified webpack dev server config. This means you don't have to eject your `create-react-app` config to enable this behavior!
 
 ### Other projects
