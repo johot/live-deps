@@ -6,5 +6,8 @@ Optimized to work with [`create-react-app`](https://github.com/facebook/create-r
 ## Why?
 `Todo`
 
+## Install
+`npm i live-package -g`
+
 ## Usage
 `Todo`
