@@ -13,11 +13,10 @@ npm i live-package -g
 
 ## Usage
 ### For Create React App projects
-The easiest way to get started is to run the command:
+The easiest way to get started is to run the following command (in the root folder of your React app):
 ```sh
 live-package cra-init
 ```
-in your root folder.
 
 Then follow the instructions by inputting the path to the dist folder of your locally built package.
 
