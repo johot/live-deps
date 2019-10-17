@@ -7,7 +7,7 @@ Optimized to work with [`create-react-app`](https://github.com/facebook/create-r
 `Todo`
 
 ## Install
-```console
+```sh
 npm i live-package -g
 ```
 
