@@ -17,9 +17,11 @@ The easiest way to get started is to run the command:
 ```sh
 live-package cra-init
 ```
-And follow the instructions by inputting the dist folder of your locally built package.
+in your root folder.
 
-When done run:
+Then follow the instructions by inputting the path to the dist folder of your locally built package.
+
+When done run the command:
 ```sh
 npm run start:lp
 ```
