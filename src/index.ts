@@ -13,6 +13,8 @@ export function devServer(configFunction: any, packageName: string) {
 
   const overrideFn = function(proxy: any, allowedHost: any) {
     const defaultConfig = configFunction(proxy, allowedHost);
+    console.log("Content base is: ", defaultConfig.contentBase);
+    console.log("Current regex", defaultConfig.watchOptions.ignored);
 
     //+(?!some_npm_module_name)
     ///^(?!C:\/...\/src\/).+\/node_modules\//g
@@ -43,16 +45,16 @@ export async function initializeLivePackageCra() {
     undefined,
     "input"
   );
-  console.log(chalk.yellow("Initializing live-package..."));
+  console.log(chalk.yellow("Initializing live-package for CRA project..."));
 
-  console.log(chalk.magentaBright('- Intalling "react-app-rewired" from npm as a dev dependency...'));
+  console.log(chalk.magentaBright('- Installing "react-app-rewired" from npm as a dev dependency...'));
   npmRun.execSync("npm i react-app-rewired --save-dev");
 
   console.log(chalk.magentaBright("- Creating react-app-rewired config file..."));
   const packageName = getPackageNameFromDistFolder(packageDistFolder);
   fs.writeFile("config-overrides.js", getConfigOverridesFile(packageName), err => {});
 
-  console.log(chalk.magentaBright('- Intalling "live-package" from npm as a dev dependency...'));
+  console.log(chalk.magentaBright('- Installing "live-package" from npm as a dev dependency...'));
   npmRun.execSync("npm i live-package --save-dev");
 
   console.log(chalk.magentaBright('- Adding "live-package" command to package.json scripts...'));
