@@ -1,6 +1,6 @@
 {
   "name": "live-package",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Work with your packages (design systems / component libraries etc) locally in your app with live reloading! ",
   "main": "index.js",
   "bin": {
@@ -9,7 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "local-build": "tsc && cp package.json dist && cd dist && yalc publish",
-    "build": "rm -rf dist && tsc && cp package.json dist && cp Readme.md dist"
+    "build": "rm -rf dist && tsc && cp package.json dist && cp Readme.md dist",
+    "build-publish": "npm run build && cd dist && npm publish"
   },
   "repository": {
     "type": "git",

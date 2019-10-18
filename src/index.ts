@@ -55,19 +55,19 @@ export async function initializeLivePackageCra() {
   );
   console.log(chalk.yellow("Initializing live-package..."));
 
-  console.log(chalk.magentaBright('- Installing "react-app-rewired" from npm as a dev dependency...'));
+  console.log(chalk.magentaBright("- Installing react-app-rewired from npm as a dev dependency..."));
   npmRun.execSync("npm i react-app-rewired --save-dev");
 
   console.log(chalk.magentaBright("- Creating react-app-rewired config file..."));
   const packageName = getPackageNameFromDistFolder(packageDistFolder);
   fs.writeFile("config-overrides.js", getConfigOverridesFile(packageName), err => {});
 
-  console.log(chalk.magentaBright('- Installing "live-package" from npm as a dev dependency...'));
+  console.log(chalk.magentaBright("- Installing live-package from npm as a dev dependency..."));
   npmRun.execSync("npm i live-package --save-dev");
 
-  console.log(chalk.magentaBright('- Adding "live-package" command to package.json scripts...'));
+  console.log(chalk.magentaBright("- Adding live-package command to package.json scripts..."));
   tryAddNpmScriptLine("start:lp", 'live-package cra-start "' + packageDistFolder + '"');
-  console.log(chalk.yellow("light-package initialized! ✔️"));
+  console.log(chalk.yellow("live-package initialized! ✔️"));
   console.log(
     chalk.magentaBright('Run command "') +
       chalk.yellow("npm run start:lp") +
