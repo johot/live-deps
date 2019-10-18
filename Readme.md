@@ -68,7 +68,7 @@ npm run start:lp
 
 ### Install
 
-Install `live-package` as a dev dependency, not need to use the CLI since this is a much simpler scenario.
+Install `live-package` as a dev dependency, (there is no need to install it as a CLI since this is a much simpler scenario).
 
 ```sh
 npm i live-package --save-dev
@@ -87,6 +87,12 @@ For projects that don't use `create-react-app` your only need to add the `live-p
 You would then just do a `npm run sync-package` in a separate terminal window and then launch your project with the command of choice.
 
 > **Note:** For most projects you would also need to make sure your build tool (such as webpack) is configured to watch your `node_modules` folder if you want something like live reloading.
+
+## Importing your package in the project
+
+Just do it like you always do `import { something } from "my-package"` (or require) etc.
+
+> **Note:** Remember that if you do a `npm install` the content of your `node_modules` folder can get overwritten. Just relaunch the project together with `live-package` and it should restore itself again.
 
 ## Things to consider
 
