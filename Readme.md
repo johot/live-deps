@@ -28,8 +28,6 @@ On top of this, when using `create-react-app` for your project it also enables l
 > **Can't `create-react-app` already handle this?**  
 > No unfortunately not... `create-react-app` will not watch for changes to the `node_modules` folder. Luckily `live-package` fixes this by overriding parts of the hidden webpack config `create-react-app` uses under the hood (by using `react-app-rewired`) to enable live reloading and rebuilding for any changes to the `node_modules\<your package>` folder. No need to eject!
 
-"It just works!"
-
 ## For Create React App projects
 
 ### Install
