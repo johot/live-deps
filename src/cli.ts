@@ -2,6 +2,9 @@
 "use strict";
 import program from "commander";
 import { startLivePackageSyncing, initializeLivePackageCra, startLivePackageCra } from "./index";
+import { version } from "./package.json";
+
+program.version(version);
 
 program
   .command("cra-init")

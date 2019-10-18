@@ -30,20 +30,12 @@ On top of this, when using `create-react-app` for your project it also enables l
 
 ## For Create React App projects
 
-### Install
+### Install and Usage
 
-Install `live-package` as a CLI globally, it will help you setup your `create-react-app` enabled project correctly.
-
-```sh
-npm i live-package -g
-```
-
-### Usage
-
-The easiest way to get started is to run the following command (in the root folder of your React app):
+The easiest way to get started is to run the following command (in the root folder of your React app), it will help you setup your `create-react-app` enabled project correctly:
 
 ```sh
-live-package cra-init
+npx live-package cra-init
 ```
 
 Then follow the instructions by inputting the path to the dist folder of your locally built package.
@@ -68,7 +60,7 @@ npm run start:lp
 
 ### Install
 
-Install `live-package` as a dev dependency, (there is no need to install it as a CLI since this is a much simpler scenario).
+Install `live-package` as a dev dependency.
 
 ```sh
 npm i live-package --save-dev
