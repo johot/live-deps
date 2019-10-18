@@ -76,7 +76,7 @@ npm i live-package --save-dev
 
 ### Usage
 
-For projects that don't use `create-react-app` your only need to add the `live-package sync <packageDistFolder>` command to the script section of your `package.json`:
+For projects that don't use `create-react-app` your only need to add the `live-package sync <packageDistFolder>` command to the scripts section of your `package.json`:
 
 ```json
 ...
