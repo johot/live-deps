@@ -1,6 +1,6 @@
 {
   "name": "live-package",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Work with your packages (design systems / component libraries etc) locally in your app with live reloading! ",
   "main": "index.js",
   "bin": {
@@ -24,6 +24,7 @@
     "commander": "^3.0.2",
     "concurrently": "^5.0.0",
     "debounce": "^1.2.0",
+    "escape-string-regexp": "^2.0.0",
     "find": "^0.3.0",
     "inquirer": "^7.0.0",
     "npm-add-script": "^1.1.0",

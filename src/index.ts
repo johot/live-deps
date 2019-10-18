@@ -18,14 +18,24 @@ export function devServer(configFunction: any, packageName: string) {
     ///^(?!C:\/...\/src\/).+\/node_modules\//g
     //const newRegex = defaultConfig.watchOptions.ignored.toString().replace("node_modules/", "node_modules/+(?!xxx)");
 
-    // Ignore nothing
-    // TODO: Make more fine grained to only look for the package folder in node_modules instead
-    defaultConfig.watchOptions.ignored = [];
+    let ignoredFilesRegExp = defaultConfig.watchOptions.ignored;
+
+    // Append the package name so that it don't check node_modules folder *except* for your package
+    ignoredFilesRegExp = new RegExp(
+      ignoredFilesRegExp.source.replace("\\/node_modules\\/", "\\/node_modules\\/(?!" + escape(packageName) + ")"),
+      "g"
+    );
+
+    defaultConfig.watchOptions.ignored = ignoredFilesRegExp;
 
     // We watch the node_modules folder for the package, it seems however webpack dev server only looks at the root folder
     // so we will create a little "hack" by adding a new file to this folder with random content called ".live-reload"
     // I guess (and hope) a better way exists, please let me know :) /johot
-    defaultConfig.contentBase = [defaultConfig.contentBase, path.join(process.cwd(), "node_modules", packageName)];
+    const currentContentBase = Array.isArray(defaultConfig.contentBase)
+      ? defaultConfig.contentBase
+      : [defaultConfig.contentBase];
+
+    defaultConfig.contentBase = [...currentContentBase, path.join(process.cwd(), "node_modules", packageName)];
 
     return defaultConfig;
   };
@@ -45,14 +55,14 @@ export async function initializeLivePackageCra() {
   );
   console.log(chalk.yellow("Initializing live-package..."));
 
-  console.log(chalk.magentaBright('- Intalling "react-app-rewired" from npm as a dev dependency...'));
+  console.log(chalk.magentaBright('- Installing "react-app-rewired" from npm as a dev dependency...'));
   npmRun.execSync("npm i react-app-rewired --save-dev");
 
   console.log(chalk.magentaBright("- Creating react-app-rewired config file..."));
   const packageName = getPackageNameFromDistFolder(packageDistFolder);
   fs.writeFile("config-overrides.js", getConfigOverridesFile(packageName), err => {});
 
-  console.log(chalk.magentaBright('- Intalling "live-package" from npm as a dev dependency...'));
+  console.log(chalk.magentaBright('- Installing "live-package" from npm as a dev dependency...'));
   npmRun.execSync("npm i live-package --save-dev");
 
   console.log(chalk.magentaBright('- Adding "live-package" command to package.json scripts...'));
@@ -167,6 +177,6 @@ export function startLivePackageSyncing(packageDistFolder: string) {
     // Just change the file with random data
     fs.writeFileSync(triggerFile, new Date().toString());
 
-    console.log("live-package: Reloading webpack dev server...");
+    console.log(`${chalk.yellow("live-package")}: ${chalk.magentaBright("Reloading webpack dev server...")}`);
   }
 }
