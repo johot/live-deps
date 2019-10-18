@@ -40,7 +40,7 @@ npx live-package cra-init
 
 Then follow the instructions by inputting the path to the dist folder of your locally built package.
 
-The CLI will:
+The CLI will then:
 
 1. Install and configure `react-app-rewired` (to enable live reloading for changes in your `node_modules\<your package>` folder).
 2. Install `live-package` as a dev dependency.
