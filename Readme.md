@@ -78,8 +78,12 @@ You would then just do a `npm run sync-package` in a separate terminal window an
 
 > **Note:** For most projects you would also need to make sure your build tool (such as webpack) is configured to watch your `node_modules` folder if you want something like live reloading.
 
-### Things to consider
+## Things to consider
 
 Since files are manually synced to your `node_modules` folder using a file watcher you should try to enable an incremental build process in your package, something similair to `tsc --watch` (for TypeScript users).
+
+## Other great tools for locally developing libraries
+
+- [Yalc](https://github.com/whitecolor/yalc) - Manually publish packages locally (but no built-in live syncing)
 
 _Enjoy!_
