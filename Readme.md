@@ -6,7 +6,7 @@ Optimized to work with [`create-react-app`](https://github.com/facebook/create-r
 
 ## Why?
 
-When developing an npm package you often want to test that it works in a real project. This is especially true when building something like a React component library or design system where you also want to verify that the design looks good on the page.
+When developing a npm package you often want to test that it works in a real project. This is especially true when building something like a React component library or design system where you also want to verify that the design looks good on the page.
 
 Npm has a tool called `npm link` that allows developers to create a symlink between your package and your apps `node_modules` folder, basically "tricking" your app into thinking the package have been installed even though it is somewhere else. This sounds good in theory but in practice `npm link` only works for the most simple cases.
 
