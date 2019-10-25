@@ -1,16 +1,22 @@
 {
   "name": "live-package",
-  "version": "0.3.1",
+  "version": "0.5.0-beta.0-dd3b0eb5",
   "description": "Work with your packages (design systems / component libraries etc) locally in your app with live reloading! ",
-  "main": "index.js",
+  "main": "dist/index.js",
   "bin": {
-    "live-package": "./cli.js"
+    "live-package": "dist/cli.js"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "local-build": "tsc && cp package.json dist && cd dist && yalc publish",
-    "build": "rm -rf dist && tsc && cp package.json dist && cp Readme.md dist",
-    "build-publish": "npm run build && cd dist && npm publish"
+    "build": "rm -rf dist && tsc",
+    "build-publish": "npm run build && npm publish",
+    "bp": "npm run build-publish",
+    "build-local-publish": "npm run build && yalc publish",
+    "blp": "npm run build-local-publish"
   },
   "repository": {
     "type": "git",
@@ -24,12 +30,9 @@
     "chalk": "^2.4.2",
     "commander": "^3.0.2",
     "concurrently": "^5.0.0",
-    "debounce": "^1.2.0",
-    "escape-string-regexp": "^2.0.0",
     "find": "^0.3.0",
     "inquirer": "^7.0.0",
     "npm-add-script": "^1.1.0",
-    "npm-run": "^5.0.1",
-    "sync-directory": "^2.1.0"
+    "npm-run": "^5.0.1"
   }
 }

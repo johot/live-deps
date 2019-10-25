@@ -1,0 +1,1 @@
+* Check if the package folder contains a node_modules folder (we can't allow it)
