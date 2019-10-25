@@ -1,7 +1,13 @@
 #!/usr/bin/env node
 "use strict";
 import program from "commander";
-import { initializeLivePackageCra, startPackageNpmScript, startLivePackageCra, getLivePackageVersion } from "./index";
+import {
+  initializeLivePackageCra,
+  startPackageNpmScript,
+  startLivePackageCra,
+  getLivePackageVersion,
+  uninstallLivePackageCra
+} from "./index";
 
 program.version(getLivePackageVersion());
 
@@ -21,12 +27,19 @@ program
   });
 
 program
-  .command("cra-start <packageDistFolder> [scriptName]")
+  .command("cra-start")
   .description(
     "start syncing files and start your create-react-app using rewired, allowing cra to pickup changes to your package"
   )
-  .action((packageDistFolder, scriptName) => {
-    startLivePackageCra(packageDistFolder, scriptName);
+  .action(() => {
+    startLivePackageCra();
+  });
+
+program
+  .command("cra-stop")
+  .description("uninstall / stop live package changes (if you for example want to run your package from npm etc)")
+  .action(() => {
+    uninstallLivePackageCra();
   });
 
 program.parse(process.argv);
