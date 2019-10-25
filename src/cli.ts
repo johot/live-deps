@@ -12,11 +12,12 @@ import {
 program.version(getLivePackageVersion());
 
 program
-  .command("cra-init")
+  .command("cra-init [skipInstall]")
   .alias("cra")
   .description("initialize live-package in create-react-app project")
-  .action(() => {
-    initializeLivePackageCra();
+  .action(skipInstall => {
+    const skip: boolean = skipInstall === "true" ? true : false;
+    initializeLivePackageCra(skip);
   });
 
 program

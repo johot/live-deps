@@ -137,7 +137,7 @@ function createLivePackageConfigFile(packageFolder: string, runPackageScript: st
   return JSON.stringify(config, undefined, 2);
 }
 
-export async function initializeLivePackageCra() {
+export async function initializeLivePackageCra(skipInstallStep: boolean) {
   console.log(chalk.yellow(`Initializing live-package (${getLivePackageVersion()}) for create-react-app...`));
 
   const packageFolder = await getCommandLineAnswer(
@@ -152,10 +152,7 @@ export async function initializeLivePackageCra() {
     "input"
   );
 
-  // const installDependencies = await getCommandLineAnswer("Install dependencies?", true, "confirm");
-  const installDependencies = true;
-
-  if (installDependencies) {
+  if (!skipInstallStep) {
     console.log(chalk.magentaBright("- Installing react-app-rewired from npm as a dev dependency..."));
     npmRun.execSync("npm i react-app-rewired --save-dev");
   }
@@ -167,7 +164,7 @@ export async function initializeLivePackageCra() {
   // Create config
   fs.writeFileSync("live-package.json", createLivePackageConfigFile(packageFolder, runPackageScript));
 
-  if (installDependencies) {
+  if (!skipInstallStep) {
     console.log(chalk.magentaBright("- Installing live-package from npm as a dev dependency..."));
     npmRun.execSync("npm i live-package@latest --save-dev");
   }
