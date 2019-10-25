@@ -6,9 +6,11 @@ import inquirer from "inquirer";
 import npmAddScript from "npm-add-script";
 import concurrently from "concurrently";
 
-export function modifyWebpack(config: any, packageFolders: string[]): any {
+export function modifyWebpack(config: any): any {
+  const livePackageConfig = getLivePackageConfig();
+
   // Set up webpack aliases for each package folder
-  for (const packageFolder of packageFolders) {
+  for (const packageFolder of livePackageConfig.packageConfigs[0].packageFolders) {
     const packageName = getPackageNameFromPackageFolder(packageFolder);
     config.resolve.alias = { ...config.resolve.alias, [packageName]: resolve(packageFolder) };
   }
@@ -199,7 +201,7 @@ const livePackage = require("live-package");
 
 module.exports = function override(config, env) {
  
-  livePackage.modifyWebpack(config, [${JSON.stringify(packageDistFolder)}]);
+  livePackage.modifyWebpack(config);
 
   return config;
 };
