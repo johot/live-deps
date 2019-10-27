@@ -1,8 +1,6 @@
 # Live Package
 
-_Work with your packages (design systems / component libraries etc) locally in your app with live reloading!\*_
-
-\*Where available for example in a `webpack` enabled project.
+_Work with your packages (design systems / component libraries etc) locally in your app with live reloading (where available)!_
 
 ## Tested and works with
 
