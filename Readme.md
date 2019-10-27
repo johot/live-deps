@@ -4,8 +4,8 @@ _Work with your packages (design systems / component libraries etc) locally in y
 
 ## Tested and works with
 
-- `Create-react-app` projects (when using the `syncDependencies` feature)
-- `Next.js` (when using the `syncDependencies` feature)
+- Create React App projects (when using the `syncDependencies` feature)
+- Next.js (when using the `syncDependencies` feature)
 - Most Webpack enabled projects
 
 ## Why?
