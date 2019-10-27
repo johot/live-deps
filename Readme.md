@@ -24,13 +24,13 @@ While `npm link` often works well for simple projects it can get cumbersome to u
 
 ## Install and Usage
 
-### Install in project:
+### Install in project
 
 ```sh
 npm install live-package --save-dev
 ```
 
-### Initialize project:
+### Initialize project
 
 ```sh
 npx live-package init

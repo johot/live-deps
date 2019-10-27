@@ -75,13 +75,13 @@ export function startLivePackage() {
   }
 
   if (config.packageConfigs.length === 1) {
-    if (config.packageConfigs[0].runPackageScript && config.packageConfigs[0].runProjectScript) {
+    if (config.packageConfigs[0].packageBuildScript && config.packageConfigs[0].projectStartScript) {
       concurrently([
-        "npm run " + config.packageConfigs[0].runProjectScript,
+        "npm run " + config.packageConfigs[0].projectStartScript,
         `live-package run-package-script \"${getFirstFolderThatExists([
           config.packageConfigs[0].packageFolder,
           ...(config.packageConfigs[0].fallbackFolders || [])
-        ])}\" ${config.packageConfigs[0].runPackageScript}`
+        ])}\" ${config.packageConfigs[0].packageBuildScript}`
       ]);
     } else {
       throw new Error("You must set both runProjectScript and runPackageScript in your live-package.json file");

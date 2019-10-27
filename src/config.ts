@@ -8,8 +8,8 @@ export interface PackageConfig {
   packageFolder: string;
   fallbackFolders?: string[];
   syncDependencies?: string[];
-  runProjectScript?: string;
-  runPackageScript?: string;
+  projectStartScript?: string;
+  packageBuildScript?: string;
 }
 
 export function getLivePackageConfig(): LivePackageConfig {
@@ -23,8 +23,8 @@ export function createLivePackageConfigFile(packageFolder: string, runPackageScr
       {
         packageFolder: packageFolder,
         syncDependencies: [],
-        runProjectScript: "start",
-        runPackageScript: runPackageScript
+        projectStartScript: "start",
+        packageBuildScript: runPackageScript
       }
     ]
   };
