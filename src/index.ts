@@ -110,7 +110,7 @@ export async function initializeLivePackage() {
   fs.writeFileSync("live-package.json", createLivePackageConfigFile(packageFolder, runPackageScript));
 
   console.log(chalk.magentaBright("- Adding live-package command to package.json scripts..."));
-  tryAddNpmScriptLine("start:lp", "live-package start");
+  tryAddNpmScriptLine("start:lp", "live-package on && live-package start");
 
   console.log(chalk.yellow("live-package initialized! ✔️"));
   console.log(

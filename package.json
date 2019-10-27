@@ -1,6 +1,6 @@
 {
   "name": "live-package",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "Work with your packages (design systems / component libraries etc) locally in your app with live reloading! ",
   "main": "dist/index.js",
   "bin": {

@@ -1,1 +1,3 @@
-* Check if the package folder contains a node_modules folder (we can't allow it)
+☐ Live-package console logs start with "live-package"
+☐ Handle fallback folders
+☐ Readme finish
