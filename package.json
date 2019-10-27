@@ -1,6 +1,6 @@
 {
   "name": "live-package",
-  "version": "0.6.3",
+  "version": "0.7.0",
   "description": "Work with your packages (design systems / component libraries etc) locally in your app with live reloading! ",
   "main": "dist/index.js",
   "bin": {
@@ -30,10 +30,10 @@
     "chalk": "^2.4.2",
     "commander": "^3.0.2",
     "concurrently": "^5.0.0",
-    "find": "^0.3.0",
     "inquirer": "^7.0.0",
     "npm-add-script": "^1.1.0",
-    "npm-run": "^5.0.1"
+    "npm-run": "^5.0.1",
+    "symlink-dir": "^3.1.1"
   },
   "devDependencies": {
     "version-bump-prompt": "^5.0.5"
