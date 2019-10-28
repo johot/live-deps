@@ -3,14 +3,15 @@ import npmRun from "npm-run";
 import path, { resolve } from "path";
 import chalk from "chalk";
 import concurrently from "concurrently";
-import { getLivePackageConfig, createLivePackageConfigFile } from "./config";
+import { getLivePackageConfig, createLivePackageConfigFile, PackageConfig } from "./config";
 import {
   getFirstFolderThatExists,
   getCommandLineAnswer,
   getPackageNameFromPackageFolder,
   getLivePackageVersion,
   tryAddNpmScriptLine,
-  findNodeModuleFolders
+  findNodeModuleFolders,
+  packageJsonContainsDependency
 } from "./util";
 
 import { symlinkDir, tryUnsymlinkDir } from "./symlink";
@@ -27,43 +28,47 @@ export function startPackageNpmScript(scriptName: string, packageDistFolder: str
 export async function enableDisableLivePackage(enable: boolean) {
   const config = getLivePackageConfig();
 
-  const symLinkDirs: string[][] = [];
+  for (const packageConfigEntry of config.packageConfigs) {
+    const symLinkDirs: string[][] = [];
 
-  const packageConfig = config.packageConfigs[0];
-  const packageName = getPackageNameFromPackageFolder(packageConfig.packageFolder);
-  const splitPackageName = packageName.split("/");
-  const sourceFolder = packageConfig.packageFolder;
-  const destFolder = path.resolve(...["node_modules", ...splitPackageName]);
-  symLinkDirs.push([sourceFolder, destFolder]);
+    //const packageConfigEntry = config.packageConfigs[0];
+    const packageName = getPackageNameFromPackageFolder(getPackageFolder(packageConfigEntry));
+    const splitPackageName = packageName.split("/");
+    const sourceFolder = getPackageFolder(packageConfigEntry);
+    const destFolder = path.resolve(...["node_modules", ...splitPackageName]);
+    symLinkDirs.push([sourceFolder, destFolder]);
 
-  const nodeModuleFolders = findNodeModuleFolders(sourceFolder);
+    const nodeModuleFolders = findNodeModuleFolders(sourceFolder);
 
-  // Back symlink dependencies
-  for (const dep of packageConfig.syncDependencies) {
-    for (const nodeModuleFolder of nodeModuleFolders) {
-      const depDestFolder = path.resolve(nodeModuleFolder, dep);
+    // Back symlink dependencies
+    for (const sharedDep of config.sharedDependencies) {
+      for (const nodeModuleFolder of nodeModuleFolders) {
+        const depDestFolder = path.resolve(nodeModuleFolder, sharedDep.name);
 
-      if (fs.existsSync(depDestFolder)) {
-        const depSourceFolder = path.resolve("node_modules", dep);
-        symLinkDirs.push([depSourceFolder, depDestFolder]);
+        if (fs.existsSync(depDestFolder)) {
+          const depSourceFolder = path.resolve("node_modules", sharedDep.name);
+
+          if (sharedDep.source === undefined || sharedDep.source === "app") {
+            symLinkDirs.push([depSourceFolder, depDestFolder]);
+          } else {
+            // Switch it around!
+            symLinkDirs.push([depDestFolder, depSourceFolder]);
+          }
+        }
       }
     }
-  }
 
-  if (enable) {
-    for (const sourceDest of symLinkDirs) {
-      symlinkDir(sourceDest[0], sourceDest[1]);
+    if (enable) {
+      for (const sourceDest of symLinkDirs) {
+        symlinkDir(sourceDest[0], sourceDest[1]);
+      }
+      console.log(chalk.magentaBright(`live-package for package ${chalk.yellow(packageName)} enabled`));
+    } else {
+      for (const sourceDest of symLinkDirs) {
+        tryUnsymlinkDir(sourceDest[1]);
+      }
+      console.log(chalk.magentaBright(`live-package for package ${chalk.yellow(packageName)} disabled`));
     }
-    console.log(
-      chalk.magentaBright(`live-package for package ${chalk.yellow(packageName)} turned ${chalk.yellow("on")}`)
-    );
-  } else {
-    for (const sourceDest of symLinkDirs) {
-      tryUnsymlinkDir(sourceDest[1]);
-    }
-    console.log(
-      chalk.magentaBright(`live-package for package ${chalk.yellow(packageName)} turned ${chalk.yellow("off")}`)
-    );
   }
 }
 
@@ -78,10 +83,9 @@ export function startLivePackage() {
     if (config.packageConfigs[0].packageBuildScript && config.packageConfigs[0].projectStartScript) {
       concurrently([
         "npm run " + config.packageConfigs[0].projectStartScript,
-        `live-package run-package-script \"${getFirstFolderThatExists([
-          config.packageConfigs[0].packageFolder,
-          ...(config.packageConfigs[0].fallbackFolders || [])
-        ])}\" ${config.packageConfigs[0].packageBuildScript}`
+        `live-package run-package-script \"${getPackageFolder(config.packageConfigs[0])}\" ${
+          config.packageConfigs[0].packageBuildScript
+        }`
       ]);
     } else {
       throw new Error("You must set both runProjectScript and runPackageScript in your live-package.json file");
@@ -90,7 +94,7 @@ export function startLivePackage() {
 }
 
 export async function initializeLivePackage() {
-  console.log(chalk.yellow(`Initializing live-package (${getLivePackageVersion()}) for create-react-app...`));
+  console.log(chalk.yellow(`Initializing live-package (${getLivePackageVersion()}) for app...`));
 
   const packageFolder = await getCommandLineAnswer(
     "What is the path the your packages folder (where package.json is located)?",
@@ -106,18 +110,42 @@ export async function initializeLivePackage() {
 
   const packageName = getPackageNameFromPackageFolder(packageFolder);
 
-  // Create default config file
-  fs.writeFileSync("live-package.json", createLivePackageConfigFile(packageFolder, runPackageScript));
+  const sharedDependencies = [];
 
-  console.log(chalk.magentaBright("- Adding live-package command to package.json scripts..."));
-  tryAddNpmScriptLine("start:lp", "live-package on && live-package start");
+  // Let's make it easier for react developers
+  if (packageJsonContainsDependency("react")) {
+    sharedDependencies.push("react");
+  }
+
+  if (packageJsonContainsDependency("react-dom")) {
+    sharedDependencies.push("react-dom");
+  }
+
+  // Create default config file
+  fs.writeFileSync(
+    "live-package.json",
+    createLivePackageConfigFile(packageFolder, runPackageScript, sharedDependencies)
+  );
+
+  console.log(
+    chalk.magentaBright(`- Adding live-package command (${chalk.yellow("start:lp")}) to package.json scripts...`)
+  );
+  tryAddNpmScriptLine("start:lp", "live-package link && live-package start");
 
   console.log(chalk.yellow("live-package initialized! ✔️"));
   console.log(
     chalk.magentaBright("Run command ") +
       chalk.yellow("npm run start:lp") +
-      chalk.magentaBright(
-        ` to start your React app with live-package reloading for package: ${chalk.yellow(packageName)} 🎉`
-      )
+      chalk.magentaBright(` to start your app with live-package reloading for package: ${chalk.yellow(packageName)} 🎉`)
   );
+}
+
+function getPackageFolder(packageConfig: PackageConfig): string {
+  if (typeof packageConfig.packageFolder === "string") {
+    return packageConfig.packageFolder;
+  } else if (Array.isArray(packageConfig.packageFolder)) {
+    return getFirstFolderThatExists(packageConfig.packageFolder);
+  }
+
+  throw new Error("Invalid package folder setting");
 }

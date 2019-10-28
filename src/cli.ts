@@ -5,7 +5,7 @@ import {
   initializeLivePackage,
   startPackageNpmScript as runPackageNpmScript,
   startLivePackage,
-  enableDisableLivePackage
+  enableDisableLivePackage as linkUnlinkPackagesAndDependencies
 } from ".";
 import { getLivePackageVersion } from "./util";
 
@@ -33,17 +33,17 @@ program
   });
 
 program
-  .command("on")
-  .description("uninstall / stop live package changes (if you for example want to run your package from npm etc)")
+  .command("link")
+  .description("symlink packages and shared dependencies listed in live-package.json")
   .action(() => {
-    enableDisableLivePackage(true);
+    linkUnlinkPackagesAndDependencies(true);
   });
 
 program
-  .command("off")
-  .description("uninstall / stop live package changes (if you for example want to run your package from npm etc)")
+  .command("unlink")
+  .description("restore symlinked packages and shared dependencies listed in live-package.json")
   .action(() => {
-    enableDisableLivePackage(false);
+    linkUnlinkPackagesAndDependencies(false);
   });
 
 program.parse(process.argv);

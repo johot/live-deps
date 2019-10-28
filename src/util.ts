@@ -80,3 +80,11 @@ function getParentDirectories(searchDir: string) {
 
   return results;
 }
+
+export function packageJsonContainsDependency(dependencyName: string) {
+  const packageJson = JSON.parse(fs.readFileSync("./package.json", "utf8"));
+  const dependencies = { ...(packageJson.devDependencies || []), ...(packageJson.dependencies || []) };
+
+  const dep = Object.keys(dependencies).find(k => k.toLowerCase() === dependencyName);
+  return dep !== undefined;
+}

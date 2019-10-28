@@ -4,7 +4,7 @@ import fs from "fs";
 import path from "path";
 
 export function symlinkDir(src: string, dest: string): Promise<{ reused: Boolean; warn?: string }> {
-  console.log(chalk.magentaBright(`Symlinking: ${chalk.yellow(src)} to folder: ${chalk.yellow(dest)}`));
+  console.log(chalk.magentaBright(`live-package symlinking: ${chalk.yellow(src)} to folder: ${chalk.yellow(dest)}`));
   return symLinkDirLib(src, dest);
 }
 
@@ -15,11 +15,11 @@ export function tryUnsymlinkDir(dest: string) {
 
     // Restore previous if it exists
     const dirBackup = path.resolve(dest, "..", ".ignored_" + path.basename(dest));
-    console.log(chalk.magentaBright(`Removed symlink: ${chalk.yellow(dest)}`));
+    console.log(chalk.magentaBright(`live-package removed symlink: ${chalk.yellow(dest)}`));
 
     if (fs.existsSync(dirBackup)) {
       fs.renameSync(dirBackup, dest);
-      console.log(chalk.magentaBright(`Restored previous folder: ${chalk.yellow(dest)}`));
+      console.log(chalk.magentaBright(`live-package restored previous folder: ${chalk.yellow(dest)}`));
     }
   }
 }
