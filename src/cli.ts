@@ -5,11 +5,19 @@ import {
   initializeLivePackage,
   startPackageNpmScript as runPackageNpmScript,
   startLivePackage,
-  enableDisableLivePackage as linkUnlinkPackagesAndDependencies
+  enableDisableLivePackage as linkUnlinkPackagesAndDependencies,
 } from ".";
 import { getLivePackageVersion } from "./util";
+import { v2 } from "./v2";
 
 program.version(getLivePackageVersion());
+
+program
+  .command("v2")
+  .description("initialize live-package")
+  .action(() => {
+    v2();
+  });
 
 program
   .command("init")
