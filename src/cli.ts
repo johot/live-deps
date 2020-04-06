@@ -1,57 +1,26 @@
 #!/usr/bin/env node
 "use strict";
 import program from "commander";
-import {
-  initializeLivePackage,
-  startPackageNpmScript as runPackageNpmScript,
-  startLivePackage,
-  enableDisableLivePackage as linkUnlinkPackagesAndDependencies,
-} from ".";
-import { getLivePackageVersion } from "./util";
-import { v2 } from "./v2";
+import { link } from "./main";
+import fs from "fs";
+import path from "path";
 
 program.version(getLivePackageVersion());
 
 program
-  .command("v2")
-  .description("initialize live-package")
-  .action(() => {
-    v2();
-  });
-
-program
-  .command("init")
-  .description("initialize live-package")
-  .action(() => {
-    initializeLivePackage();
-  });
-
-program
-  .command("run-package-script <packageDistFolder> <scriptName>")
-  .description("start a script in your package directory (for example watching build changes)")
-  .action((packageDistFolder, scriptName) => {
-    runPackageNpmScript(scriptName, packageDistFolder);
-  });
-
-program
-  .command("start")
-  .description("run a start script in your project and a watch script in your package very easily")
-  .action(() => {
-    startLivePackage();
-  });
-
-program
   .command("link")
-  .description("symlink packages and shared dependencies listed in live-package.json")
+  .description("symlink packages listed in the liveDependencies section of your package.json")
   .action(() => {
-    linkUnlinkPackagesAndDependencies(true);
-  });
-
-program
-  .command("unlink")
-  .description("restore symlinked packages and shared dependencies listed in live-package.json")
-  .action(() => {
-    linkUnlinkPackagesAndDependencies(false);
+    link();
   });
 
 program.parse(process.argv);
+
+export function getLivePackageVersion(): string {
+  try {
+    const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "package.json"), "utf8"));
+    return packageJson.version;
+  } catch (ex) {
+    return "??? -> " + ex.toString();
+  }
+}

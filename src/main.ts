@@ -1,11 +1,8 @@
 import fs from "fs";
 import path from "path";
-import symLinkDirLib from "symlink-dir";
-import chalk from "chalk";
+import { symlinkDir } from "./symlink";
 
-export function v2() {
-  console.log("V2");
-
+export async function link() {
   // Get config block from package.json
   const packageJson = JSON.parse(fs.readFileSync(path.resolve("./package.json"), "utf8"));
   const liveDependencies = packageJson.liveDependencies ? packageJson.liveDependencies : {};
@@ -26,10 +23,8 @@ export function v2() {
     for (const subFolderToSymlink of subFoldersToSymlink) {
       const from = path.resolve(packagePath, subFolderToSymlink);
       const to = path.join(nodeModulesPackagePath, subFolderToSymlink);
-      symLinkDirLib(from, to);
-      console.log(chalk.magentaBright("Live package symlinked:", from, "to", to));
+      await symlinkDir(from, to);
+      //console.log(chalk.magentaBright("Live package symlinked:", from, "to", to));
     }
   }
 }
-
-function symlinkPackage(packageName: string) {}

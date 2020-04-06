@@ -1,10 +1,10 @@
 {
-  "name": "live-package",
-  "version": "0.8.0",
-  "description": "Work with your packages (design systems / component libraries etc) locally in your app with live reloading! ",
+  "name": "live-deps",
+  "version": "0.0.1",
+  "description": "Work with your dependencies locally and see the changes in your app live, like `npm link` but better",
   "main": "dist/index.js",
   "bin": {
-    "live-package": "dist/cli.js"
+    "live-deps": "dist/cli.js"
   },
   "files": [
     "dist"
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:johot/live-package.git"
+    "url": "git@github.com:johot/live-deps.git"
   },
   "keywords": [],
   "author": "Johan Otterud <johan.otterud@gmail.com>",
@@ -29,10 +29,6 @@
     "@types/node": "^12.11.1",
     "chalk": "^2.4.2",
     "commander": "^3.0.2",
-    "concurrently": "^5.0.0",
-    "inquirer": "^7.0.0",
-    "npm-add-script": "^1.1.0",
-    "npm-run": "^5.0.1",
     "symlink-dir": "^3.1.1"
   },
   "devDependencies": {
