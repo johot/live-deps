@@ -1,7 +1,7 @@
 {
   "name": "live-deps",
   "version": "0.0.1",
-  "description": "Work with your dependencies locally and see the changes in your app live, like `npm link` but better",
+  "description": "Work with your dependencies locally and see the changes in your app live, like npm link but better",
   "main": "dist/index.js",
   "bin": {
     "live-deps": "dist/cli.js"
