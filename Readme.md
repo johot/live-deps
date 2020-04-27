@@ -36,12 +36,20 @@ In your `package.json` add the following:
 },
 ```
 
-Then run the command:
+If you package requires transpiling make sure to run it in watch mode:
+
+For example:
+
+```
+tsc --watch
+```
+
+Then in your consuming project run the command:
 
 ```
 npx live-deps link
 ```
 
-This will symlink all the folders in the folder of your package _except_ the `node_modules` folder.
+This will symlink all the folders in the folder of your package _except_ the `node_modules` folder. Currently it will not symlink and files in the root of your project which means you should have your final source code end up in a `dist` folder etc.
 
 > By avoiding symlinking your `node_modules` we simulate a real install in a better way and avoid problems like dual versions of React etc being loaded causing runtime errors.
